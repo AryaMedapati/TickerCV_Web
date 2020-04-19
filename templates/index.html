@@ -1,1 +1,29 @@
-
+  <!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+    </head>
+    <body>
+        <style>
+        #cn {
+            text-align:center;
+            font-family:'Courier New';
+        }
+        </style>
+        <h1 id='cn'>Stocks in Novel Corona Virus Time</h1>
+        <h2 id='cn'>Find a stock trending better than the best score today</h2>
+        <p style="background-color:White;">
+        {% if validTicker == False %}
+        <h2>Ticker <em>"{{symbol}}"</em> is Invalid! Please try again.</h2>
+        {% endif %}
+        <form>
+            <label style="font-size:22px;" for="ticker">Enter a Ticker Symbol: </label>
+            <input style="font-size:22px;" type="text" name="tickersymbol" id="ticker" placeholder="Default = SPY"><br><br>
+        </form>
+        <h2>Trending by Rate-of-Change on Exponential Moving Averages:</h2>
+        <img src="data:image/png;base64, {{ plot_url2 }}">
+        <h2>Correlation with Confirmed Cases (Pearson Method):</h2>
+        <img src="data:image/png;base64, {{ plot_url1 }}">
+        <img src="data:image/png;base64, {{ plot_url }}">
+    </body>
+</html>
