@@ -21,18 +21,9 @@ def Correlate(sCloses, tCases):
 
 #    score = (1 - meanDS)*10
     corr1 = np.corrcoef(series1Norm, series2Norm)
-    score = 10*corr1[0,1]
+    score = 100*corr1[0,1]
 
-    if (score < 0):
-        score = 0 - score
-
-    if score < 2.4:
-        gbw = "bad"
-    if score > 2.4 and score < 3.0:
-        gbw = "mediocre"
-    if score > 3.0 and score < 3.65:
-        gbw = "good"
-    if score > 3.65:
-        gbw = "excellent"
+    #if (score < 0):
+        #score = 0 - score
 
     return score
