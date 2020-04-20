@@ -14,19 +14,21 @@ def HeatMap(score, tickerSymbol, cmap, bestScore, bestTs):
         nscore = 0
     # cmap = matplotlib.cm.cool
     # labels = ('Dreadful', 'Poor', 'Mediocre', 'Good', 'Excellent', 'Phenomenal')
-    norm = matplotlib.colors.Normalize(vmin=0 ,vmax=10)
+    norm = matplotlib.colors.Normalize(vmin=0 ,vmax=100)
     trans = ax3.get_yaxis_transform()
     if score < 0:
-        final = tickerSymbol + "Weak " + str(round(nscore, 2))
+        final = tickerSymbol + " Negative " + str(round(nscore, 2))
     else:
         final = tickerSymbol + " " + str(round(nscore, 2))
-    ax3.annotate(final, xy=(nscore/10,-0.4), xycoords=trans, xytext=(nscore/10, -1.22), textcoords='axes fraction', color='tab:blue',
+    ax3.annotate(final, xy=(nscore/100,-0.3),
+                        xytext=(nscore/100, -1.22), xycoords=trans, textcoords='axes fraction', color='tab:blue',
     arrowprops=dict(color='tab:blue', shrink=0.0, width=0.5, headwidth=3.5, headlength=3.5),
     horizontalalignment='center', verticalalignment='baseline',)
 
 
     final2 = "Best: " + bestTs + " " + str(round(bestScore, 2))
-    ax3.annotate(final2, xy=(bestScore/10,-0.4), xycoords=trans, xytext=(bestScore/10, -1.0), textcoords='axes fraction', color='green',
+    ax3.annotate(final2, xy=(bestScore/100,-0.4),
+                        xytext=(bestScore/100, -1.0), xycoords=trans, textcoords='axes fraction', color='green',
     arrowprops=dict(color='green', shrink=0.0, width=0.5, headwidth=3.5, headlength=3.5),
     horizontalalignment='center', verticalalignment='baseline',)
     ax3.set_xlabel('Correlation', fontsize=14, color='b')
