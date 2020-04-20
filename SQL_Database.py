@@ -16,15 +16,15 @@ def createDB(db):
     cursor = db.cursor()
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY, name TEXT UNIQUE,
-    corrscore FLOAT, soarscore FLOAT, udate DATE)''')
+    corrscore FLOAT, rsiscore FLOAT, udate DATE)''')
     db.commit()
     return cursor
 
 # INITIALLIZE DB (called users) with 2 entries
-def updateDB(db, name, corrscore, soarscore, udate):
+def updateDB(db, name, corrscore, rsiscore, udate):
     cursor = db.cursor()
-    cursor.execute('''INSERT or REPLACE INTO users(name, corrscore, soarscore, udate)
-                    VALUES(?,?,?,?)''', (name, corrscore, soarscore, udate))
+    cursor.execute('''INSERT or REPLACE INTO users(name, corrscore, rsiscore, udate)
+                    VALUES(?,?,?,?)''', (name, corrscore, rsiscore, udate))
     db.commit()
     return cursor
 
@@ -37,18 +37,18 @@ def updateToLatestDate(db):
         ticker = row[1]
         # fix this score to latest ticker
         corrscore = '20'
-        soarscore = '20'
+        rsiscore = '20'
         today = datetime.strftime(datetime.now(), '%Y-%m-%d')
-        updateDB(db, ticker, corrscore, soarscore, today)
+        updateDB(db, ticker, corrscore, rsiscore, today)
 
 def getRow0DB(cursor):
-    cursor.execute('''SELECT name, corrscore, soarscore, udate FROM users''')
+    cursor.execute('''SELECT name, corrscore, rsiscore, udate FROM users''')
     row = cursor.fetchone()
     return row
 
     #SEARCH for MAX
 def getAllDB(cursor):
-    cursor.execute('''SELECT name, corrscore, soarscore, udate FROM users''')
+    cursor.execute('''SELECT name, corrscore, rsiscore, udate FROM users''')
     all_rows = cursor.fetchall()
     return all_rows
     # for row in all_rows:
@@ -57,22 +57,22 @@ def getAllDB(cursor):
 
 # UPDATE user with MAX score with new MAX score
 def getMaxDBCorr(cursor):
-    cursor.execute('''SELECT name, max(corrscore), soarscore, udate FROM users''')
+    cursor.execute('''SELECT name, max(corrscore), rsiscore, udate FROM users''')
     row = cursor.fetchone()
     return row
 
-def getMaxDBSoar(cursor):
-    cursor.execute('''SELECT name, corrscore, max(soarscore), udate FROM users''')
+def getMaxDBrsi(cursor):
+    cursor.execute('''SELECT name, corrscore, max(rsiscore), udate FROM users''')
     row = cursor.fetchone()
     return row
 
 def getMinDBCorr(cursor):
-    cursor.execute('''SELECT name, min(corrscore), soarscore, udate FROM users''')
+    cursor.execute('''SELECT name, min(corrscore), rsiscore, udate FROM users''')
     row = cursor.fetchone()
     return row
 
-def getMinDBSoar(cursor):
-    cursor.execute('''SELECT name, corrscore, min(soarscore), udate FROM users''')
+def getMinDBrsi(cursor):
+    cursor.execute('''SELECT name, corrscore, min(rsiscore), udate FROM users''')
     row = cursor.fetchone()
     return row
 
