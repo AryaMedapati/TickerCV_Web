@@ -12,7 +12,7 @@ import CV_Stats
 import Plot
 import Correlation
 import HeatMap
-import Soaring
+import RSI
 import SQL_Database as sqd
 
 app = Flask(__name__)
@@ -21,7 +21,7 @@ app = Flask(__name__)
 db = sqd.startDB()
 cursor = sqd.createDB(db)
 defaultTS = 'SPY'
-defaultDate = datetime.date.today()-datetime.timedelta(days=70)
+defaultDate = datetime.date.today()-datetime.timedelta(days=30)
 sqd.updateDB(db, defaultTS, 1, 2, defaultDate)
 
 def latestScores(start_date, end_date, tickerSymbol):
@@ -37,8 +37,7 @@ def latestScores(start_date, end_date, tickerSymbol):
     validTicker = True
     if len(sDates) < 1:
         validTicker = False
-        tickerSymbol = defaultTS
-        sDates, sCloses = Ticker.Ticker(start_date, end_date, tickerSymbol)
+        sDates, sCloses = Ticker.Ticker(start_date, end_date, defaultTS)
 
 
     scDates, tCases, scCloses = CV_Stats.CV_Stats(tdate, sDates, sCloses, df, end_date)
@@ -47,7 +46,7 @@ def latestScores(start_date, end_date, tickerSymbol):
     sDates1 = pd.to_datetime(sDates)
     sDates1 = sDates1.strftime("%m-%d")
     score = Correlation.Correlate(sCloses, tCases)
-    score1 = Soaring.Soaring(sDates, sCloses)
+    score1 = RSI.computeRSI(sCloses, sDates, 10, 30)
     return score, score1, validTicker, sDates1, sCloses, tCases
 
 @app.route('/')
@@ -55,7 +54,7 @@ def latestScores(start_date, end_date, tickerSymbol):
 def index():
     end_date = str(datetime.date.today())
     start_date1 = pd.to_datetime(end_date)
-    start_date = start_date1 - datetime.timedelta(days=30)
+    start_date = start_date1 - datetime.timedelta(days=70)
     tdate = str(start_date.strftime("%Y-%m-%d"))
 
 
@@ -78,16 +77,21 @@ def index():
     tickerSymbol = inputTS
     score, score1, validTicker, sDates1, sCloses, tCases = latestScores(tdate, end_date, tickerSymbol)
 
+    if validTicker == False:
+        tickerSymbol = defaultTS
+
     corrrow = sqd.getMaxDBCorr(cursor)
-    soarrow = sqd.getMaxDBSoar(cursor)
+    rsirow = sqd.getMaxDBrsi(cursor)
+    print("RSIrow")
+    print(rsirow)
     sqd.updateDB(db, tickerSymbol, score, score1, end_date)
 
     plot_url = Plot.Plot(sDates1, sCloses, tickerSymbol, tCases)
-    cmap2 = matplotlib.cm.bone
+    cmap2 = matplotlib.cm.spring
     plot_url1 = HeatMap.HeatMap(score, tickerSymbol, cmap2, corrrow[1], corrrow[0])
 
-    cmap = matplotlib.cm.plasma
-    plot_url2 = HeatMap.HeatMap(score1, tickerSymbol, cmap, soarrow[2], soarrow[0])
+    cmap = matplotlib.cm.GnBu
+    plot_url2 = HeatMap.HeatMap(score1, tickerSymbol, cmap, rsirow[2], rsirow[0])
 
 
     return render_template('index.html', title=('%s vs COVID-19' % tickerSymbol),
