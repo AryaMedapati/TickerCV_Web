@@ -1,29 +1,113 @@
   <!DOCTYPE html>
 <html>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <head>
         <title>{{ title }}</title>
-    </head>
-    <body>
         <style>
+
+        /* Body Class*/
+        body {
+        background-image: url('../static/testbackground.png');
+        color: white;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100% 100%;
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
+        }
+
+        /* Button Class */
+        .button {
+        background-color: white;
+        border: none;
+        color: black;
+        padding: 4.5px 15px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 50px;
+        }
+
+        /* Button shadow and color change for hover */
+        .button:hover {
+            background-color: #e7e7e7;
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+        }
+
+        /* image center*/
+        img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        }
+
+
+        /* All of the id's */
+
+        /* Text center*/
         #cn {
             text-align:center;
-            font-family:'Courier New';
         }
+
+        /* Text center and stoppage of typewriter */
+        #container {
+            display: flex;
+        }
+        #center {
+            margin: auto;
+        }
+
+        /* typewriter */
+        .typewriter h1 {
+        overflow: hidden; /* hidden content before typed */
+        border-right: .15em solid orange; /* cursor color */
+        white-space: nowrap; /* All on one line */
+        margin: 0 auto; /* Scrolling effect while typing */
+        letter-spacing: .15em; /* Spacing between letters */
+        animation:
+          typing 3.5s steps(31, end),
+          blink-caret .75s step-end infinite;
+        }
+
+        /* The typing effect */
+        @keyframes typing {
+          from { width: 0 }
+          to { width: 100% }
+        }
+
+        /* The typewriter cursor effect */
+        @keyframes blink-caret {
+          from, to { border-color: transparent }
+          50% { border-color: orange; }
+        }
+
         </style>
-        <h1 id='cn'>Stocks in Novel Corona Virus Time</h1>
-        <h2 id='cn'>Find a stock trending better than the best score today</h2>
+    </head>
+    <body>
+        <div id="container">
+            <div id="center">
+                <div id='cn' class="typewriter">
+                    <h1>Stocks in the Time of COVID-19</h1>
+                </div>
+            </div>
+        </div>
+
         <p style="background-color:White;">
         {% if validTicker == False %}
         <h2>Ticker <em>"{{symbol}}"</em> is Invalid! Please try again.</h2>
         {% endif %}
+
         <form>
-            <label style="font-size:22px;" for="ticker">Enter a Ticker Symbol: </label>
-            <input style="font-size:22px;" type="text" name="tickersymbol" id="ticker" placeholder="Default = SPY"><br><br>
+            <label id='cn' style="font-size:30px;" for="ticker">Enter a Ticker Symbol: </label>
+            <input style="font-size:30px;" type="text" name="tickersymbol" id="ticker" placeholder="Default = SPY"><button class="button" style='font-size:30px;'>Submit</button><br><br>
         </form>
-        <h2>Trending by Rate-of-Change on Exponential Moving Averages:</h2>
-        <img src="data:image/png;base64, {{ plot_url2 }}">
-        <h2>Correlation with Confirmed Cases (Pearson Method):</h2>
-        <img src="data:image/png;base64, {{ plot_url1 }}">
-        <img src="data:image/png;base64, {{ plot_url }}">
+
+        <h2 id='cn'>Trending by Rate-of-Change on Exponential Moving Averages:</h2>
+        <img style="border:5px solid Tomato;" src="data:image/png;base64, {{ plot_url2 }}"><br>
+        <h2 id='cn'>Correlation with Confirmed Cases (Pearson Method):</h2>
+        <img style="border:5px solid Tomato;" src="data:image/png;base64, {{ plot_url1 }}"><br><br><br>
+        <h2 id='cn'>Stock Price and Confirmed Cases</h2>
+        <img id='cn' style="border:5px solid Tomato;" src="data:image/png;base64, {{ plot_url }}"><br>
     </body>
 </html>
