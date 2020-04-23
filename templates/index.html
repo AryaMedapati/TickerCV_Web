@@ -1,6 +1,6 @@
   <!DOCTYPE html>
 <html>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=0.4"> -->
     <head>
         <title>{{ title }}</title>
         <style>
@@ -12,7 +12,11 @@
         background-repeat: no-repeat;
         background-attachment: fixed;
         background-size: 100% 100%;
-        font-family: "Trebuchet MS", Helvetica, sans-serif;
+        font-family: Garamond;
+        }
+
+        div.a {
+            text-indent: 50px;
         }
 
         /* Button Class */
@@ -35,6 +39,14 @@
             box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
         }
 
+        html, body, {
+            position:fixed;
+            top:0;
+            bottom:0;
+            left:0;
+            right:0;
+        }
+
         /* image center*/
         img {
         display: block;
@@ -48,6 +60,10 @@
         /* Text center*/
         #cn {
             text-align:center;
+        }
+
+        #fs {
+            font-size: 65px;
         }
 
         /* Text center and stoppage of typewriter */
@@ -64,7 +80,7 @@
         border-right: .15em solid orange; /* cursor color */
         white-space: nowrap; /* All on one line */
         margin: 0 auto; /* Scrolling effect while typing */
-        letter-spacing: .15em; /* Spacing between letters */
+        letter-spacing: 0em; /* Spacing between letters */
         animation:
           typing 3.5s steps(31, end),
           blink-caret .75s step-end infinite;
@@ -85,10 +101,14 @@
         </style>
     </head>
     <body>
+        <div id="wrapper"></div>
         <div id="container">
             <div id="center">
                 <div id='cn' class="typewriter">
-                    <h1>Stocks in the Time of COVID-19</h1>
+                    <br>
+                    <br>
+                    <br>
+                    <h1 id='fs'>Stocks in the Time of COVID-19</h1>
                 </div>
             </div>
         </div>
@@ -99,15 +119,18 @@
         {% endif %}
 
         <form>
-            <label id='cn' style="font-size:30px;" for="ticker">Enter a Ticker Symbol: </label>
-            <input style="font-size:30px;" type="text" name="tickersymbol" id="ticker" placeholder="Default = SPY"><button class="button" style='font-size:30px;'>Submit</button><br><br>
+            <br>
+            <div class="a">
+                <label id='cn' style="font-size:30px;" for="ticker">Enter Ticker: </label>
+                <input style="font-size:30px;" type="text" name="tickersymbol" id="ticker" placeholder="Default = SPY"><button class="button" style='font-size:30px;'>Submit</button><br><br>
+            </div>
         </form>
 
         <h2 id='cn'>Trending by RSI:</h2>
-        <img style="border:5px solid Tomato;" src="data:image/png;base64, {{ plot_url2 }}"><br>
+        <img style="border:1px solid Tomato;" src="data:image/png;base64, {{ plot_url2 }}"><br>
         <h2 id='cn'>Correlation with Confirmed Cases (Pearson Method):</h2>
-        <img style="border:5px solid Tomato;" src="data:image/png;base64, {{ plot_url1 }}"><br><br><br>
+        <img style="border:1px solid Tomato;" src="data:image/png;base64, {{ plot_url1 }}"><br><br><br>
         <h2 id='cn'>Stock Price and Confirmed Cases</h2>
-        <img id='cn' style="border:5px solid Tomato;" src="data:image/png;base64, {{ plot_url }}"><br>
+        <img id='cn' style="border:1px solid Tomato;" src="data:image/png;base64, {{ plot_url }}"><br>
     </body>
 </html>
