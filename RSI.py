@@ -16,16 +16,20 @@ def Ticker(start_date, end_date, ticker):
 
 # Get just the adjusted close
 def computeRSI (sCloses, sDates, time_window, speriod):
-    #print("sCloses, sDates, time_window, speriod")
-    #print(sCloses)
-    #print(sDates)
-    #print(time_window)
-    #print(speriod)
+    debug = 0
+    if debug == 1:
+        print("sCloses, sDates, time_window, speriod")
+        print(sCloses)
+        print(sDates)
+        print(time_window)
+        print(speriod)
+
     data = pd.Series(sCloses, sDates)
     diff = data.diff(1).dropna()        # diff in one field(one day)
-    #print("data, diff")
-    #print(data)
-    #print(diff)
+    if debug == 1:
+        print("data, diff")
+        print(data)
+        print(diff)
 
     #this preservers dimensions off diff values
     up_chg = 0 * diff
@@ -49,6 +53,7 @@ def computeRSI (sCloses, sDates, time_window, speriod):
     rsi_sma = rsi.rolling(window=speriod).mean()
     rsiValues = rsi_sma.values
     rsi_trend = rsiValues[len(rsiValues)-1]
-    #print("Rsi_trend")
-    #print(rsi_trend)
+    if debug == 1:
+        print("Rsi_trend")
+        print(rsi_trend)
     return rsi_trend
