@@ -24,7 +24,16 @@ defaultTS = 'SPY'
 defaultDate = datetime.date.today()-datetime.timedelta(days=30)
 sqd.updateDB(db, defaultTS, 1, 2, defaultDate)
 
+
+
 def latestScores(start_date, end_date, tickerSymbol):
+
+    debug = 0
+    if debug == 1:
+        print("start_date, end_Date, tickersymbol")
+        print(start_date)
+        print(end_date)
+        print(tickerSymbol)
 
     url = "https://raw.githubusercontent.com/datasets/covid-19/master/data/time-series-19-covid-combined.csv"
     filename = url
@@ -46,6 +55,11 @@ def latestScores(start_date, end_date, tickerSymbol):
     sDates1 = pd.to_datetime(sDates)
     sDates1 = sDates1.strftime("%m-%d")
     score = Correlation.Correlate(sCloses, tCases)
+
+    if debug == 1:
+        print("sDates")
+        print(sDates)
+
     score1 = RSI.computeRSI(sCloses, sDates, 10, 30)
     return score, score1, validTicker, sDates1, sCloses, tCases
 
@@ -57,13 +71,16 @@ def index():
     start_date = start_date1 - datetime.timedelta(days=70)
     tdate = str(start_date.strftime("%Y-%m-%d"))
 
+    all_rows = sqd.getAllDB(cursor)
+    print("All_rows")
+    print(all_rows)
 
     row0 = sqd.getRow0DB(cursor)
     print(row0)
     if row0[3] < end_date:
         all_rows = sqd.getAllDB(cursor)
         for row in all_rows:
-            score, score1, validTicker, sDates1, sCloses, tCases = latestScores(row[3], end_date, row[0])
+            score, score1, validTicker, sDates1, sCloses, tCases = latestScores(start_date, end_date, row[0])
             sqd.updateDB(db, row[0], score, score1, end_date)
 
     query = 'tickersymbol'
@@ -88,10 +105,10 @@ def index():
 
     plot_url = Plot.Plot(sDates1, sCloses, tickerSymbol, tCases)
     cmap2 = matplotlib.cm.spring
-    plot_url1 = HeatMap.HeatMap(score, tickerSymbol, cmap2, corrrow[1], corrrow[0])
+    plot_url1 = HeatMap.HeatMap(score, tickerSymbol, cmap2, corrrow[1], corrrow[0], -100, 100)
 
     cmap = matplotlib.cm.GnBu
-    plot_url2 = HeatMap.HeatMap(score1, tickerSymbol, cmap, rsirow[2], rsirow[0])
+    plot_url2 = HeatMap.HeatMap(score1, tickerSymbol, cmap, rsirow[2], rsirow[0], 0, 100)
 
 
     return render_template('index.html', title=('%s vs COVID-19' % tickerSymbol),
