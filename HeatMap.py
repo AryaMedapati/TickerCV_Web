@@ -13,7 +13,7 @@ def HeatMap(score, tickerSymbol, cmap, bestScore, bestTs, vmin, vmax):
     print(cmap)
     print(bestScore)
     print(bestTs)
-    fig, ax3 = plt.subplots(figsize=(13, 1.3))
+    fig, ax3 = plt.subplots(figsize=(10, 1.3))
 
 
     final = tickerSymbol + " " + str(round(score, 2))
@@ -24,7 +24,7 @@ def HeatMap(score, tickerSymbol, cmap, bestScore, bestTs, vmin, vmax):
     matplotlib.colorbar.ColorbarBase(ax3, cmap=cmap, norm=norm, orientation='horizontal')
     #ax3.set_xlabel('Correlation', fontsize=14, color='b')
 
-    fig.subplots_adjust(bottom=0.5)
+    fig.subplots_adjust(bottom=0.45)
 
     print("score and bestScore")
     print(score)
@@ -53,7 +53,7 @@ def HeatMap(score, tickerSymbol, cmap, bestScore, bestTs, vmin, vmax):
 
     #cb1.ax.set_xticklabels(labels)
     img1 = BytesIO()
-    plt.savefig(img1, format='png')
+    plt.savefig(img1, format='png', bbox_inches='tight', pad_inches = 0.1)
     plt.close()
     img1.seek(0)
     plot_url1 = base64.b64encode(img1.getvalue()).decode('utf8')
