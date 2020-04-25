@@ -114,19 +114,27 @@ def index():
     return render_template('index.html', title=('%s vs COVID-19' % tickerSymbol),
         validTicker=validTicker, plot_url1=plot_url1, plot_url2=plot_url2, plot_url=plot_url, symbol=inputTS)
 
-#@app.route('/about')
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/detail')
+def detail():
+    topcorrrows = sqd.getTopCorr(cursor)
+    toprsirows = sqd.getToprsi(cursor)
+    return render_template('detail.html', topcorrrows=topcorrrows, toprsirows = toprsirows)
 
 
 
-@app.route('/feedback', methods = ['GET', 'POST'])
-def feedback():
+#@app.route('/feedback', methods = ['GET', 'POST'])
+#def feedback():
 
-    if request.method == 'POST':
-        uname = request.form.get('name1')
-        ucomment = request.form.get('comment1')
-        return render_template('showfb.html', uname=uname, ucomment=ucomment)
+    #if request.method == 'POST':
+        #uname = request.form.get('name1')
+        #ucomment = request.form.get('comment1')
+        #return render_template('showfb.html', uname=uname, ucomment=ucomment)
 
-    return render_template('feedback.html')
+    #return render_template('feedback.html')
 
 
 
