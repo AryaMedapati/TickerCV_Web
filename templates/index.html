@@ -55,6 +55,28 @@
         }
 
 
+
+        /* normal link*/
+        a:link {
+            color: #ffffff;
+        }
+
+        a:visited {
+            color: #ffffff;
+        }
+
+        /* normal link*/
+        a:hover {
+            color: #e6e6e6;
+        }
+
+        /* normal link*/
+        a:active {
+            color: #b3b3b3;
+        }
+
+
+
         /* All of the id's */
 
         /* Text center*/
@@ -109,6 +131,9 @@
                     <br>
                     <br>
                     <h1 id='fs'>Stocks in the Time of COVID-19</h1>
+                    <br>
+                    <br>
+                    <br>
                 </div>
             </div>
         </div>
@@ -127,10 +152,17 @@
         </form>
 
         <h2 id='cn'>Trending by RSI:</h2>
-        <img style="border:1px solid Tomato;" src="data:image/png;base64, {{ plot_url2 }}"><br>
+        <a href="/detail">
+            <img style="border:1px solid Tomato;" src="data:image/png;base64, {{ plot_url2 }}"><br>
+        </a>
+
         <h2 id='cn'>Correlation with Confirmed Cases (Pearson Method):</h2>
-        <img style="border:1px solid Tomato;" src="data:image/png;base64, {{ plot_url1 }}"><br><br><br>
+        <a href="/detail">
+            <img style="border:1px solid Tomato;" src="data:image/png;base64, {{ plot_url1 }}"><br><br><br>
+        </a>
+
         <h2 id='cn'>Stock Price and Confirmed Cases</h2>
         <img id='cn' style="border:1px solid Tomato;" src="data:image/png;base64, {{ plot_url }}"><br>
+        <a href="/about">About page</a>
     </body>
 </html>
