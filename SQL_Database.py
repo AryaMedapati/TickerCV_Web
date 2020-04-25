@@ -55,6 +55,20 @@ def getAllDB(cursor):
     # row[0] returns the first column in the query (name), row[1] returns 2nd column (score)
     #     return print('{0} : {1}'.format(row[0], row[1]))
 
+def getTopCorr(cursor):
+    cursor.execute('''SELECT name, corrscore, rsiscore, udate FROM users ORDER BY corrscore DESC LIMIT 5;''')
+    all_rows = cursor.fetchall()
+    #print("Top 5 Correlation")
+    #print(all_rows)
+    return all_rows
+
+def getToprsi(cursor):
+    cursor.execute('''SELECT name, corrscore, rsiscore, udate FROM users ORDER BY rsiscore DESC LIMIT 5;''')
+    all_rows = cursor.fetchall()
+    #print("Top 5 rsisCores")
+    #print(all_rows)
+    return all_rows
+
 # UPDATE user with MAX score with new MAX score
 def getMaxDBCorr(cursor):
     cursor.execute('''SELECT name, max(corrscore), rsiscore, udate FROM users''')
@@ -81,6 +95,7 @@ def getPriorDB(cursor, sdate, edate):
     strftime('%s', udate) BETWEEN strftime('%s', ?) AND strftime('%s', ?)''', (sdate, edate))
     all_rows = cursor.fetchall()
     return all_rows
+
 
 
 #def main():
