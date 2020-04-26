@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <style>
+        <title>Feedback Form</title>
+
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+
+        .button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        </style>
+    </head>
+
+
+    <body>
+        <h1>Thanks for your feedback! Have a Great Day!</h1>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Comment</th>
+                <th>Date</th>
+            </tr>
+            {% for row in all_rows %}
+            <tr>
+                <td>{{row[1]}}</td>
+                <td>{{row[2]}}</td>
+                <td>{{row[3]}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <a href="/" class="button">Return to Main Page</a>
+    </body>
+</html>
