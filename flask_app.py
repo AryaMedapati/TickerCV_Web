@@ -14,6 +14,7 @@ import Correlation
 import HeatMap
 import RSI
 import SQL_Database as sqd
+import SQL_Feedback as sqf
 
 app = Flask(__name__)
 
@@ -23,6 +24,10 @@ cursor = sqd.createDB(db)
 defaultTS = 'SPY'
 defaultDate = datetime.date.today()-datetime.timedelta(days=30)
 sqd.updateDB(db, defaultTS, 1, 2, defaultDate)
+
+#Creating DB for Feedback
+fdb = sqf.startFbDb()
+fdbcursor = sqf.createFbDb(fdb)
 
 
 
@@ -125,17 +130,22 @@ def detail():
     return render_template('detail.html', topcorrrows=topcorrrows, toprsirows = toprsirows)
 
 
+@app.route('/feedback', methods = ['GET', 'POST'])
+def feedback():
 
-#@app.route('/feedback', methods = ['GET', 'POST'])
-#def feedback():
+    if request.method == 'POST':
+        uname = request.form.get('name1')
+        ucomment = request.form.get('comment1')
+        udate = datetime.date.today().strftime('%Y-%m-%d')
+        if (uname) and (ucomment):
+            sqf.updateFbDb(fdb, uname, ucomment, udate)
+            all_rows = sqf.getRecentFbDb(fdbcursor, 5)
+            uname = ""
+            ucomment = ""
+            return render_template('showfb.html', all_rows=all_rows)
 
-    #if request.method == 'POST':
-        #uname = request.form.get('name1')
-        #ucomment = request.form.get('comment1')
-        #return render_template('showfb.html', uname=uname, ucomment=ucomment)
-
-    #return render_template('feedback.html')
-
+    all_rows = sqf.getRecentFbDb(fdbcursor, 5)
+    return render_template('feedback.html', all_rows=all_rows)
 
 
 
