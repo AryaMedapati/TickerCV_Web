@@ -71,9 +71,9 @@ def latestScores(start_date, end_date, tickerSymbol):
 @app.route('/')
 
 def index():
-    end_date = str(datetime.date.today())
+    end_date = str(datetime.date.today()-datetime.timedelta(days=1))
     start_date1 = pd.to_datetime(end_date)
-    start_date = start_date1 - datetime.timedelta(days=70)
+    start_date = start_date1 - datetime.timedelta(days=80)
     tdate = str(start_date.strftime("%Y-%m-%d"))
 
     all_rows = sqd.getAllDB(cursor)
