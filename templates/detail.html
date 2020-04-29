@@ -1,56 +1,86 @@
-<html>
-    <meta name="viewport" content="width=device-width, initial-scale=0.3">
+<!DOCTYPE html>
+<html lang="en">
         <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Top Correlation and RSI Scores</title>
             <style>
-            <title>Page Title</title>
+                body {
+                background-color: #F1F1F1;
+                text-align: center;
+            }
+
+            div.bar {
+                background-color: #808080;
+                height: 10px;
+            }
+
+            div.a {
+                text-align: center;
+            }
 
             table {
-              font-family: arial, sans-serif;
-              border-collapse: collapse;
-              width: 100%;
+                font-family: "Quincy", Georgia, serif;
+                border-collapse: collapse;
+                width: 100%;
+                background-color: white;
             }
 
             td, th {
-              border: 1px solid #dddddd;
-              text-align: left;
-              padding: 8px;
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+
+            th {
+                padding-top: 18px;
+                padding-bottom: 18px;
+                text-align: left;
+                background-color: #4CAF50;
+                color: white;
+                font-size: 16px;
             }
 
             tr:nth-child(even) {
-              background-color: #dddddd;
+              background-color: #f2f2f2;
             }
 
+            tr:hover {background-color: #ddd;}
+
             .button {
-                background-color: #4CAF50;
-                border: none;
-                color: white;
+                background-color: #F1F1F1;
+                border: black;
+                border-style: solid;
+                border-width: 2px;
+                color: black;
                 padding: 15px 32px;
                 text-align: center;
                 text-decoration: none;
                 display: inline-block;
                 font-size: 16px;
                 margin: 4px 2px;
+                transition-duration: 0.4s;
                 cursor: pointer;
             }
 
+            .button:hover {
+                background-color: #cccccc;
+                color: #F1F1F1;
+                border: #cccccc;
+                border-style: solid;
+                border-width: 2px;
+            }
+
+            .relative {
+                position: static;
+            }
             </style>
         </head>
     <body>
-        <h1>Top 5 Correlation and RSI Scores</h1>
-        <table>
-            <tr>
-                <th>Ticker Symbol</th>
-                <th>Correlation Score</th>
-                <th>Entry Date</th>
-            </tr>
-            {% for row in topcorrrows %}
-            <tr>
-                <td>{{row[0]}}</td>
-                <td>{{row[1]}}</td>
-                <td>{{row[3]}}</td>
-            </tr>
-            {% endfor %}
-        </table>
+        <div class="bar"></div>
+        <br>
+        <br>
+        <header style="font-size:40px;text-align:center">Top 5 RSI and Correlation Scores</header>
+        <br>
         <br>
         <table>
             <tr>
@@ -60,14 +90,34 @@
             </tr>
             {% for row in toprsirows %}
             <tr>
-                <td>{{row[0]}}</td>
+                <td><a target="_blank" href="https://finance.yahoo.com/quote/{{row[0]}}">{{row[0]}}</a></td>
                 <td>{{row[2]}}</td>
                 <td>{{row[3]}}</td>
             </tr>
             {% endfor %}
         </table>
-
-        <a href="/" class="button">Return to Main Page</a>
-
+        <br>
+        <table>
+            <tr>
+                <th>Ticker Symbol</th>
+                <th>Correlation Score</th>
+                <th>Entry Date</th>
+            </tr>
+            {% for row in topcorrrows %}
+            <tr>
+                <td><a target="_blank" href="https://finance.yahoo.com/quote/{{row[0]}}">{{row[0]}}</a></td>
+                <td>{{row[1]}}</td>
+                <td>{{row[3]}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br>
+        <br>
+        <div class="al bar"></div>
+        <br>
+        <br>
+        <a href="/" class="button relative">Return to Main Page</a>
+        <a href="/about" class="button relative">About Page</a>
+        <a href="/feedback" class="button relative">Feedback Page</a>
     </body>
 </html>

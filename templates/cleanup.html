@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <style>
+            body {
+                background-color: #F1F1F1;
+                text-align: center;
+            }
+
+            div.bar {
+                background-color: #808080;
+                height: 10px;
+            }
+
+            div.a {
+                text-align: center;
+            }
+
+            table {
+                font-family: "Quincy", Georgia, serif;
+                border-collapse: collapse;
+                width: 100%;
+                background-color: white;
+            }
+
+            td, th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+
+            th {
+                padding-top: 18px;
+                padding-bottom: 18px;
+                text-align: left;
+                background-color: #4CAF50;
+                color: white;
+                font-size: 16px;
+            }
+
+            tr:nth-child(even) {
+              background-color: #f2f2f2;
+            }
+
+            tr:hover {background-color: #ddd;}
+
+            .button {
+            background-color: #F1F1F1;
+            border: black;
+            border-style: solid;
+            border-width: 2px;
+            color: black;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            }
+
+            .button:hover {
+                background-color: #cccccc;
+                color: #F1F1F1;
+                border: #cccccc;
+                border-style: solid;
+                border-width: 2px;
+            }
+
+            .relative {
+                position: static;
+            }
+
+    </style>
+    </head>
+    <body>
+        <form>
+            <p>What comment number should be cleaned up: <input id="name1" name="num" type="text" rows="2" cols="20"><input type="submit"  class="button relative"></p>
+            <br>
+        </form>
+
+        <table>
+            <colgroup>
+               <col span="1" style="width: 10%;">
+               <col span="1" style="width: 20%;">
+               <col span="1" style="width: 55%;">
+               <col span="1" style="width: 15%;">
+            </colgroup>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Comment</th>
+              <th>Date</th>
+            </tr>
+            {% for row in comment %}
+            <tr>
+              <td>{{row[0]}}</td>
+              <td>{{row[1]}}</td>
+              <td>{{row[2]}}</td>
+              <td>{{row[3]}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br><br>
+        <table>
+            <tr>
+              <th>Ticker Symbol</th>
+              <th>Corrrelation Score</th>
+              <th>RSI Score</th>
+              <th>Date</th>
+            </tr>
+            {% for row in clean %}
+            <tr>
+              <td>{{row[0]}}</td>
+              <td>{{row[1]}}</td>
+              <td>{{row[2]}}</td>
+              <td>{{row[3]}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>

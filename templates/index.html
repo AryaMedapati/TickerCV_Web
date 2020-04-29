@@ -1,22 +1,30 @@
-  <!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <!-- <meta name="viewport" content="width=device-width, initial-scale=0.4"> -->
     <head>
         <title>{{ title }}</title>
+        <link rel="stylesheet"
+                href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:ital@0;1&display=swap">
         <style>
 
         /* Body Class*/
         body {
-        background-image: url('../static/testbackground.png');
-        color: white;
+        color: black;
         background-repeat: no-repeat;
         background-attachment: fixed;
         background-size: 100% 100%;
-        font-family: Garamond;
+        background-color: #F1F1F1;
+        font-family: "Quincy", Georgia, serif;
+        text-align: center;
         }
 
         div.a {
             text-indent: 50px;
+        }
+
+        div.b {
+            background-color: #808080;
+            height: 10px;
         }
 
         /* Button Class */
@@ -39,8 +47,35 @@
             box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
         }
 
-        html, body, {
-            position:fixed;
+        .button1 {
+            background-color: #F1F1F1;
+            border: black;
+            border-style: solid;
+            border-width: 2px;
+            color: black;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+        }
+
+        .button1:hover {
+            background-color: #cccccc;
+            color: #F1F1F1;
+            border: #cccccc;
+            border-style: solid;
+            border-width: 2px;
+        }
+
+        .al {
+            margin: auto;
+        }
+
+        html, body {
             top:0;
             bottom:0;
             left:0;
@@ -49,55 +84,38 @@
 
         /* image center*/
         img {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
 
 
-
-        /* normal link*/
-        a:link {
-            color: #ffffff;
-        }
-
-        a:visited {
-            color: #ffffff;
-        }
-
-        /* normal link*/
-        a:hover {
-            color: #e6e6e6;
-        }
-
-        /* normal link*/
-        a:active {
-            color: #b3b3b3;
-        }
 
 
 
         /* All of the id's */
 
-        /* Text center*/
-        #cn {
-            text-align:center;
+        .display {
+            display: inline-block;
         }
 
-        #fs {
-            font-size: 65px;
+        .mi {
+            font-family: 'Playfair Display SC', serif;
+            font-size: 25px;
+            font-style: italic;
         }
+
 
         /* Text center and stoppage of typewriter */
-        #container {
+        .container {
             display: flex;
         }
-        #center {
+        .center {
             margin: auto;
         }
 
         /* typewriter */
-        .typewriter h1 {
+        .typewriter header {
         overflow: hidden; /* hidden content before typed */
         border-right: .15em solid orange; /* cursor color */
         white-space: nowrap; /* All on one line */
@@ -120,49 +138,65 @@
           50% { border-color: orange; }
         }
 
+
+
         </style>
     </head>
     <body>
-        <div id="wrapper"></div>
-        <div id="container">
-            <div id="center">
-                <div id='cn' class="typewriter">
+        <div class="al b"></div>
+        <div class="container">
+            <div class="center">
+                <div class="typewriter">
                     <br>
                     <br>
                     <br>
-                    <h1 id='fs'>Stocks in the Time of COVID-19</h1>
-                    <br>
+                    <header style="font-size: 65px">Stocks in the Time of COVID-19</header>
                     <br>
                     <br>
                 </div>
             </div>
         </div>
-
-        <p style="background-color:White;">
+        <header class="mi">A place to help you and others find trending stocks!</header>
+        <br>
         {% if validTicker == False %}
-        <h2>Ticker <em>"{{symbol}}"</em> is Invalid! Please try again.</h2>
+        <header style="font-size:30px;color:red">Ticker<em>"{{symbol}}"</em> is Invalid! Please try again.</header>
         {% endif %}
 
         <form>
             <br>
-            <div class="a">
-                <label id='cn' style="font-size:30px;" for="ticker">Enter Ticker: </label>
-                <input style="font-size:30px;" type="text" name="tickersymbol" id="ticker" placeholder="Default = SPY"><button class="button" style='font-size:30px;'>Submit</button><br><br>
+            <div class="a" style="text-align:center;">
+                <label style="font-size:30px;font-family: Quincy, Georgia, serif" for="ticker">Ticker: </label>
+                <input style="font-size:30px;font-family: Quincy, Georgia, serif" type="text" name="tickersymbol" id="ticker" placeholder="Default = SPY"><button class="button" style='font-size:30px;font-family: Quincy, Georgia, serif'>Submit</button><br><br>
             </div>
         </form>
+        <br>
+        <br>
+        <header style="font-size:30px;">Click the heatmaps to see the top scores!</header><br>
+        <br>
+        <br>
 
-        <h2 id='cn'>Trending by RSI:</h2>
+        {% if trending == False and validTicker == False %}
+        <header style="font-size:25px;">Relative Strength Index of SPY: <span style="color: red;font-size:30px">&darr;</span></header><br>
+        {% elif trending == True %}
+        <header style="font-size:25px;">Relative Strength Index of {{symbol}}: <span style="color: green;font-size:30px">&uarr;</span></header><br>
+        {% else %}
+        <header style="font-size:25px;">Relative Strength Index of {{symbol}}: <span style="color: red;font-size:30px">&darr;</span></header><br>
+        {% endif %}
+
         <a href="/detail">
-            <img style="border:1px solid Tomato;" src="data:image/png;base64, {{ plot_url2 }}"><br>
+            <img style="border:1px solid Tomato;" src="data:image/png;base64,{{ plot_url2 }}" alt="RSI Heatmap"><br>
         </a>
 
-        <h2 id='cn'>Correlation with Confirmed Cases (Pearson Method):</h2>
+        <header style="font-size:25px;">Pearson Correlation with Confirmed Cases</header><br>
+
         <a href="/detail">
-            <img style="border:1px solid Tomato;" src="data:image/png;base64, {{ plot_url1 }}"><br><br><br>
+        <img style="border:1px solid Tomato;" src="data:image/png;base64,{{ plot_url1 }}" alt="Correlation Heatmap"><br><br><br>
         </a>
 
-        <h2 id='cn'>Stock Price and Confirmed Cases</h2>
-        <img id='cn' style="border:1px solid Tomato;" src="data:image/png;base64, {{ plot_url }}"><br>
-        <a href="/about">About page</a>
+        <header style="font-size:25px;">Stock Price and Confirmed Cases</header><br>
+        <img style="border:1px solid Tomato;" src="data:image/png;base64,{{ plot_url }}" alt="COVID Stock Graph"><br>
+
+        <a href="/about" class="button1">About page</a>
+        <a href="/feedback" class="button1">Feedback page</a>
     </body>
 </html>

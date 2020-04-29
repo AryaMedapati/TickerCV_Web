@@ -1,35 +1,77 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
-        <style>
         <title>Feedback Form</title>
+        <style>
+        body {
+            background-color: #F1F1F1;
+            font-family: "Quincy", Georgia, serif;
+        }
+
+        div.bar {
+            background-color: #808080;
+            height: 10px;
+        }
+
+        div.a {
+            text-align: center;
+        }
 
         table {
-          font-family: arial, sans-serif;
-          border-collapse: collapse;
-          width: 100%;
+            font-family: "Quincy", Georgia, serif;
+            border-collapse: collapse;
+            width: 100%;
+            background-color: white;
         }
 
         td, th {
-          border: 1px solid #dddddd;
-          text-align: left;
-          padding: 8px;
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            padding-top: 18px;
+            padding-bottom: 18px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
         }
 
         tr:nth-child(even) {
-          background-color: #dddddd;
+          background-color: #f2f2f2;
         }
 
+        tr:hover {background-color: #ddd;}
+
+
         .button {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
+            background-color: #F1F1F1;
+            border: black;
+            border-style: solid;
+            border-width: 2px;
+            color: black;
             padding: 15px 32px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
             font-size: 16px;
             margin: 4px 2px;
+            transition-duration: 0.4s;
             cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #cccccc;
+            color: #F1F1F1;
+            border: #cccccc;
+            border-style: solid;
+            border-width: 2px;
+        }
+
+        .relative {
+            position: static;
         }
 
         </style>
@@ -37,8 +79,18 @@
 
 
     <body>
-        <h1>Thanks for your feedback! Have a Great Day!</h1>
+        <div class="al bar"></div>
+        <br>
+        <br>
+        <header style="font-size:40px;text-align:center">Thanks for your feedback! Have a Great Day!</header>
+        <br>
+        <br>
         <table>
+            <colgroup>
+               <col span="1" style="width: 15%;">
+               <col span="1" style="width: 70%;">
+               <col span="1" style="width: 15%;">
+            </colgroup>
             <tr>
                 <th>Name</th>
                 <th>Comment</th>
@@ -52,7 +104,12 @@
             </tr>
             {% endfor %}
         </table>
-
-        <a href="/" class="button">Return to Main Page</a>
+        <br>
+        <br>
+        <div class="al bar"></div>
+        <br>
+        <br>
+        <a href="/" class="button relative">Return to Main Page</a>
+        <a href="/feedback" class="button relative">Add Another Comment</a>
     </body>
 </html>

@@ -3,16 +3,19 @@ import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
 
+
+
 def HeatMap(score, tickerSymbol, cmap, bestScore, bestTs, vmin, vmax):
 
+    debug = 0;
 
-
-    print("score, tickerSYmbol, cmap, bestscore, bestTs")
-    print(score)
-    print(tickerSymbol)
-    print(cmap)
-    print(bestScore)
-    print(bestTs)
+    if debug == 1:
+        print("score, tickerSYmbol, cmap, bestscore, bestTs")
+        print(score)
+        print(tickerSymbol)
+        print(cmap)
+        print(bestScore)
+        print(bestTs)
     fig, ax3 = plt.subplots(figsize=(10, 1.3))
 
 
@@ -26,9 +29,10 @@ def HeatMap(score, tickerSymbol, cmap, bestScore, bestTs, vmin, vmax):
 
     fig.subplots_adjust(bottom=0.45)
 
-    print("score and bestScore")
-    print(score)
-    print(bestScore)
+    if debug == 1:
+        print("score and bestScore")
+        print(score)
+        print(bestScore)
 
     down = vmin -1.25 * (vmax-vmin)
 

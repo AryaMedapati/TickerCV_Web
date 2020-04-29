@@ -1,8 +1,8 @@
 import sqlite3
 from sqlite3 import Error
 
-def startFbDb():
-    database = '/home/aryam/mysite/feedback.db'
+def startFbDb(path):
+    database = path
     #database = r':memory:'
     # CREATE a database in file or RAM
     db = sqlite3.connect(database)
@@ -27,7 +27,8 @@ def updateFbDb(db, name, comment, cdate):
     return cursor
 
 def getAllFbDb(cursor):
-    cursor.execute('''SELECT name, comment, cdate FROM feedback''')
+    #cursor.execute('''SELECT id, name, comment, cdate FROM feedback''')
+    cursor.execute('''SELECT * FROM feedback ORDER by id DESC''')
     all_rows = cursor.fetchall()
     return all_rows
 
@@ -35,3 +36,9 @@ def getRecentFbDb(cursor, limit):
     cursor.execute('''SELECT * FROM feedback ORDER by id DESC LIMIT (?)''', (limit,))
     all_rows = cursor.fetchall()
     return all_rows
+
+def deleteFb(db, inputID):
+    cursor = db.cursor()
+    cursor.execute('''DELETE FROM feedback WHERE id = (?)''', (inputID,))
+    db.commit()
+    return cursor

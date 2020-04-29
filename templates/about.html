@@ -1,48 +1,251 @@
-<html>
-    <meta name="viewport" content="width=device-width, initial-scale=0.3">
-        <head>
-            <style>
-            div {
-                background-color: darkgrey;
-                width: 750px;
-                padding: 50px;
-            }
-            body {background-color: #F1F1F1;}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{ title }}</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC&display=swap">
+        <style>
+        .box1 {
+            background-color: #808080;
+            padding: 60px;
+            height: 270px;
+        }
 
-            #sz {
-                height: 200px
-                width: 200px;
+        div {
+            background-color: #808080;
+            height: 10px;
+        }
+        body {
+            background-color: #F1F1F1;
+            font-family: Candara;
+        }
+
+        .al {
+            margin: auto;
+        }
+
+
+        .p {text-align: center;}
+
+        .title {
+            font-family: "Quincy", Georgia, serif;
+            font-size: 40px;
+        }
+
+        .roundhand {
+            font-family: 'Playfair Display SC', serif;
+            font-size: 50px;
+        }
+
+        .mini {
+            font-family: 'Playfair Display SC', serif;
+            font-size: 35px;
+        }
+
+        .button {
+            background-color: #808080;
+            border: #ffffff;
+            border-style: solid;
+            border-width: 2px;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #cccccc;
+            color: #808080;
+            border: #cccccc;
+            border-style: solid;
+            border-width: 2px;
+        }
+
+        .relative {
+            position: relative;
+            left: 50px;
+            color: white;
+        }
+
+        .w {
+            color: white;
+        }
+
+        .float {
+            float: left;
+        }
+
+        .rotate {
+            -webkit-transform: rotate(-8deg);
+            -moz-transform: rotate(-8deg);
+            -o-transform: rotate(-8deg);
+            -ms-transform: rotate(-8deg);
+            transform: rotate(-8deg);
+        }
+
+        @media screen and (max-width: 1180px) {
+
+            div.box1 {
+                height: 350px;
+            }
+        }
+
+        @media screen and (max-width: 1023px) {
+            img {
+                display: none;
             }
 
-            #al {
+            div.box1 {
                 text-align: center;
-                margin: auto;
+                height: 250px;
             }
 
-            .button {
-                background-color: #4CAF50;
-                border: none;
-                color: white;
-                padding: 15px 32px;
+            .relative {
+                position: static;
+            }
+        }
+
+        @media screen and (max-width: 882px) {
+            img {
+                display: none;
+            }
+
+            div.box1 {
                 text-align: center;
-                text-decoration: none;
-                display: inline-block;
-                font-size: 16px;
-                margin: 4px 2px;
-                cursor: pointer;
+                height: 290px;
+            }
+        }
+
+        @media screen and (max-width: 844px) {
+            img {
+                display: none;
             }
 
-            <title>Page Title</title>
-            </style>
-        </head>
+            div.box1 {
+                text-align: center;
+                height: 360px;
+            }
+        }
+
+        @media screen and (max-width: 716px) {
+            img {
+                display: none;
+            }
+
+            div.box1 {
+                text-align: center;
+                height: 420px;
+            }
+        }
+
+        @media screen and (max-width: 530px) {
+            img {
+                display: none;
+            }
+
+            div.box1 {
+                text-align: center;
+                height: 520px;
+            }
+        }
+
+
+        @media screen and (max-width: 500px) {
+            img {
+                display: none;
+            }
+
+            div.box1 {
+                text-align: center;
+                height: 570px;
+            }
+
+            .relative {
+                position: static;
+            }
+        }
+
+        @media screen and (max-width: 460px) {
+            img {
+                display: none;
+            }
+
+            div.box1 {
+                text-align: center;
+                height: 675px;
+            }
+
+            .relative {
+                position: static;
+            }
+        }
+
+
+        @media screen and (max-width: 420px) {
+            img {
+                display: none;
+            }
+
+            div.box1 {
+                text-align: center;
+                height: 730px;
+            }
+
+            .relative {
+                position: static;
+            }
+        }
+
+        @media screen and (max-width: 375px) {
+            img {
+                display: none;
+            }
+
+            div.box1 {
+                text-align: center;
+                height: 900px;
+            }
+
+            .relative {
+                position: static;
+            }
+        }
+
+
+        @media screen and (max-width: 320px) {
+            img {
+                display: none;
+            }
+
+            div.box1 {
+                text-align: center;
+                height: 950px;
+            }
+
+            .relative {
+                position: static;
+            }
+        }
+        </style>
+    </head>
     <body>
-
-        <h1 id='al'>About The Author/Website</h1>
+        <div class="al"></div>
             <br>
             <br>
-            <div id='al' style="clear: left;">
-                <p style="float: left;"><img id='sz' src="/static/arya.jpeg" style="margin:0px 50px"></p>
-                <p>My name is Arya and I am a sophomore in high school. I have a passion for
+        <header class="title p">ARYA MEDAPATI</header>
+        <header class="roundhand p">About The Author</header>
+            <br>
+            <br>
+            <div class="box1 al">
+                <p class="float"><img style="border:2px solid white;margin:0px 50px " class="rotate" src="/static/arya.jpeg" alt="Picture of Arya" width="230" height="230"></p>
+                <header id='w' class="mini relative">Welcome</header>
+                <p class="relative">Hi there and welcome to my about page.</p>
+                <p class="relative">My name is Arya and I am a sophomore in high school. I have a passion for
                 coding and mathematics and also interests in music and basketball. I love all
                 the aspects of coding from the frustration of a failing program all the way to
                 the spark of joy of a successful one. It is like an exciting adventure in which
@@ -50,7 +253,15 @@
                 In this project, I
                 worked on developing a sustainable webserver, printing heatmaps, html design,
                 developing an updating database and more.</p>
+                <p class="relative">If you would like to learn more about me, give some feedback, or visit my friends' websites please look below.</p>
+                <a href="/" class="button relative">Return to Main Page</a>
+                <a href="http://dubcoder.pythonanywhere.com/" class="button relative">Mihir's Website</a>
+                <a href="http://risheethk14.pythonanywhere.com/" class="button relative">Rishi's Website</a>
+                <a href="/feedback" class="button relative">Feedback</a>
             </div>
-            <a href="/" class="button">Return to Main Page</a>
+            <br>
+            <br>
+            <br>
+            <div class="al"></div>
     </body>
 </html>

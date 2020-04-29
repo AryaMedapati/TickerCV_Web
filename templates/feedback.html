@@ -1,49 +1,106 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
-        <style>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Feedback Form</title>
+        <style>
+        body {
+            background-color: #F1F1F1;
+            text-align: center;
+        }
+
+        div.bar {
+            background-color: #808080;
+            height: 10px;
+        }
+
+        div.a {
+            text-align: center;
+        }
 
         table {
-          font-family: arial, sans-serif;
-          border-collapse: collapse;
-          width: 100%;
+            font-family: "Quincy", Georgia, serif;
+            border-collapse: collapse;
+            width: 100%;
+            background-color: white;
         }
 
         td, th {
-          border: 1px solid #dddddd;
-          text-align: left;
-          padding: 8px;
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            padding-top: 18px;
+            padding-bottom: 18px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
         }
 
         tr:nth-child(even) {
-          background-color: #dddddd;
+            background-color: #f2f2f2;
         }
 
+        tr:hover {background-color: #ddd;}
+
         .button {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
+            background-color: #F1F1F1;
+            border: black;
+            border-style: solid;
+            border-width: 2px;
+            color: black;
             padding: 15px 32px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
             font-size: 16px;
             margin: 4px 2px;
+            transition-duration: 0.4s;
             cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #cccccc;
+            color: #F1F1F1;
+            border: #cccccc;
+            border-style: solid;
+            border-width: 2px;
+        }
+
+        .relative {
+            position: static;
         }
 
         </style>
     </head>
     <body>
-        <form method="post">
-            <h2><p> Please fill the feedback forum </p></h2>
-            <p style="font-size:30px"> NAME: <input id="name1" name="name1" type="text"></p>
-            <p style="font-size:30px"> Comment: </p>
-            <p style="font-size:30px"> <textarea id="comment1" name="comment1"></textarea>
-            <input id="articleid" name="articleid" type="hidden" value="<? echo $_GET["id"]";></p>
-            <p> <input type="submit" value="Submit"> </p>
+        <div class="bar"></div>
+        <br>
+        <br>
+        <form style="font-family: Quincy, Georgia, serif;" method="post">
+            <header style="font-size:40px;text-align:center"> Give us your feedback on the features and design! </header>
+            <br>
+            <header style="font-size:30px;text-align:center">Also, suggest features you would like to see in the final launch</header>
+            <br>
+            <p style="font-size:20px;text-align:center">Name(This field is required!): <input style="font-size:15px" id="name1" name="name1" type="text" rows="2" cols="20"></p>
+            <p style="font-size:20px;text-align:center">Comment(This field is required!): <textarea style="font-size:15px" id="comment1" name="comment1" rows="3" cols="53"></textarea></p>
+            <div class="a">
+                <button class="button relative" style="font-family:Quincy, Georgia, serif;">Submit</button>
+            </div>
         </form>
+        <br>
+        <div class="bar"></div>
+        <br>
+        <br>
         <table>
+            <colgroup>
+               <col span="1" style="width: 15%;">
+               <col span="1" style="width: 70%;">
+               <col span="1" style="width: 15%;">
+            </colgroup>
             <tr>
                 <th>Name</th>
                 <th>Comment</th>
@@ -57,7 +114,12 @@
             </tr>
             {% endfor %}
         </table>
-
-        <a href="/" class="button">Return to Main Page</a>
+        <br>
+        <br>
+        <div class="al bar"></div>
+        <br>
+        <br>
+        <a href="/about" class="button relative">About Page</a>
+        <a href="/" class="button relative">Return to Main Page</a>
     </body>
 </html>

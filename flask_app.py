@@ -19,21 +19,21 @@ import SQL_Feedback as sqf
 app = Flask(__name__)
 
 #Creating and Initializing DB before ticker is entered
-db = sqd.startDB()
+db = sqd.startDB('/home/aryam/mysite/tickercv.db')
 cursor = sqd.createDB(db)
 defaultTS = 'SPY'
 defaultDate = datetime.date.today()-datetime.timedelta(days=30)
 sqd.updateDB(db, defaultTS, 1, 2, defaultDate)
 
 #Creating DB for Feedback
-fdb = sqf.startFbDb()
+fdb = sqf.startFbDb('/home/aryam/mysite/feedback.db')
 fdbcursor = sqf.createFbDb(fdb)
 
+debug = 0
 
 
 def latestScores(start_date, end_date, tickerSymbol):
 
-    debug = 0
     if debug == 1:
         print("start_date, end_Date, tickersymbol")
         print(start_date)
@@ -77,11 +77,14 @@ def index():
     tdate = str(start_date.strftime("%Y-%m-%d"))
 
     all_rows = sqd.getAllDB(cursor)
-    print("All_rows")
-    print(all_rows)
+    if debug == 1:
+        print("All_rows")
+        print(all_rows)
 
     row0 = sqd.getRow0DB(cursor)
-    print(row0)
+    if debug == 1:
+        print(row0)
+
     if row0[3] < end_date:
         all_rows = sqd.getAllDB(cursor)
         for row in all_rows:
@@ -98,14 +101,20 @@ def index():
 
     tickerSymbol = inputTS
     score, score1, validTicker, sDates1, sCloses, tCases = latestScores(tdate, end_date, tickerSymbol)
+    if score1 > 50:
+        trending = True;
+    else:
+        trending = False;
 
     if validTicker == False:
         tickerSymbol = defaultTS
 
     corrrow = sqd.getMaxDBCorr(cursor)
     rsirow = sqd.getMaxDBrsi(cursor)
-    print("RSIrow")
-    print(rsirow)
+
+    if debug == 1:
+        print("RSIrow")
+        print(rsirow)
     sqd.updateDB(db, tickerSymbol, score, score1, end_date)
 
     plot_url = Plot.Plot(sDates1, sCloses, tickerSymbol, tCases)
@@ -116,36 +125,56 @@ def index():
     plot_url2 = HeatMap.HeatMap(score1, tickerSymbol, cmap, rsirow[2], rsirow[0], 0, 100)
 
 
-    return render_template('index.html', title=('%s vs COVID-19' % tickerSymbol),
-        validTicker=validTicker, plot_url1=plot_url1, plot_url2=plot_url2, plot_url=plot_url, symbol=inputTS)
+    return render_template('index.html', title=('%s vs COVID-19' % tickerSymbol), validTicker=validTicker, plot_url1=plot_url1, plot_url2=plot_url2, plot_url=plot_url, symbol=inputTS, trending=trending)
 
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    return render_template('about.html', title=('Arya Medapati - About Page'))
 
 @app.route('/detail')
 def detail():
     topcorrrows = sqd.getTopCorr(cursor)
     toprsirows = sqd.getToprsi(cursor)
-    return render_template('detail.html', topcorrrows=topcorrrows, toprsirows = toprsirows)
+    return render_template('detail.html', topcorrrows=topcorrrows, toprsirows=toprsirows)
 
 
 @app.route('/feedback', methods = ['GET', 'POST'])
 def feedback():
 
+    uname = request.form.get('name1')
+    ucomment = request.form.get('comment1')
+    udate = datetime.date.today().strftime('%Y-%m-%d')
+
     if request.method == 'POST':
-        uname = request.form.get('name1')
-        ucomment = request.form.get('comment1')
-        udate = datetime.date.today().strftime('%Y-%m-%d')
         if (uname) and (ucomment):
             sqf.updateFbDb(fdb, uname, ucomment, udate)
-            all_rows = sqf.getRecentFbDb(fdbcursor, 5)
+            all_rows = sqf.getRecentFbDb(fdbcursor, 10)
             uname = ""
             ucomment = ""
             return render_template('showfb.html', all_rows=all_rows)
 
-    all_rows = sqf.getRecentFbDb(fdbcursor, 5)
+    all_rows = sqf.getRecentFbDb(fdbcursor, 10)
     return render_template('feedback.html', all_rows=all_rows)
+
+@app.route('/cleanup')
+def clean():
+    clean = sqd.getAllDB(cursor)
+    #comment = sqf.getAllFbDb(fdbcursor)
+    query = 'num'
+    if debug == 1:
+        print("request.args")
+        print(request.args)
+    if query in request.args:
+        inputID = request.args[query]
+        sqf.deleteFb(fdb, inputID)
+    else:
+        inputID = 0
+    if debug == 1:
+        print("inputID")
+        print(inputID)
+    comment = sqf.getAllFbDb(fdbcursor)
+    return render_template('cleanup.html', clean=clean, comment=comment, inputID=inputID)
+
 
 
 
