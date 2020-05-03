@@ -15,19 +15,30 @@ import HeatMap
 import RSI
 import SQL_Database as sqd
 import SQL_Feedback as sqf
+import sqlite3
 
 app = Flask(__name__)
 
 #Creating and Initializing DB before ticker is entered
-db = sqd.startDB('/home/aryam/mysite/tickercv.db')
+path = '/home/aryam/mysite/tickercv.db'
+db = sqlite3.connect(path)
 cursor = sqd.createDB(db)
 defaultTS = 'SPY'
 defaultDate = datetime.date.today()-datetime.timedelta(days=30)
 sqd.updateDB(db, defaultTS, 1, 2, defaultDate)
 
+corrrow = sqd.getMaxDBCorr(cursor)
+rsirow = sqd.getMaxDBrsi(cursor)
+
+db.close()
+
 #Creating DB for Feedback
-fdb = sqf.startFbDb('/home/aryam/mysite/feedback.db')
+fpath = '/home/aryam/mysite/feedback.db'
+fdb = sqlite3.connect(fpath)
 fdbcursor = sqf.createFbDb(fdb)
+
+fdb.close()
+
 
 debug = 0
 
@@ -76,12 +87,16 @@ def index():
     start_date = start_date1 - datetime.timedelta(days=80)
     tdate = str(start_date.strftime("%Y-%m-%d"))
 
-    all_rows = sqd.getAllDB(cursor)
+    db = sqlite3.connect(path)
+    cursor = db.cursor()
+
     if debug == 1:
         print("All_rows")
+        all_rows = sqd.getAllDB(cursor)
         print(all_rows)
 
     row0 = sqd.getRow0DB(cursor)
+
     if debug == 1:
         print(row0)
 
@@ -109,9 +124,6 @@ def index():
     if validTicker == False:
         tickerSymbol = defaultTS
 
-    corrrow = sqd.getMaxDBCorr(cursor)
-    rsirow = sqd.getMaxDBrsi(cursor)
-
     if debug == 1:
         print("RSIrow")
         print(rsirow)
@@ -124,7 +136,7 @@ def index():
     cmap = matplotlib.cm.GnBu
     plot_url2 = HeatMap.HeatMap(score1, tickerSymbol, cmap, rsirow[2], rsirow[0], 0, 100)
 
-
+    db.close()
     return render_template('index.html', title=('%s vs COVID-19' % tickerSymbol), validTicker=validTicker, plot_url1=plot_url1, plot_url2=plot_url2, plot_url=plot_url, symbol=inputTS, trending=trending)
 
 @app.route('/about')
@@ -133,13 +145,20 @@ def about():
 
 @app.route('/detail')
 def detail():
+    db = sqlite3.connect(path)
+    cursor = db.cursor()
+
     topcorrrows = sqd.getTopCorr(cursor)
     toprsirows = sqd.getToprsi(cursor)
+
+    db.close()
     return render_template('detail.html', topcorrrows=topcorrrows, toprsirows=toprsirows)
 
 
 @app.route('/feedback', methods = ['GET', 'POST'])
 def feedback():
+    fdb = sqlite3.connect(fpath)
+    fdbcursor = fdb.cursor()
 
     uname = request.form.get('name1')
     ucomment = request.form.get('comment1')
@@ -154,26 +173,43 @@ def feedback():
             return render_template('showfb.html', all_rows=all_rows)
 
     all_rows = sqf.getRecentFbDb(fdbcursor, 10)
+    fdb.close()
     return render_template('feedback.html', all_rows=all_rows)
 
-@app.route('/cleanup')
+@app.route('/cleanupAsSr')
 def clean():
-    clean = sqd.getAllDB(cursor)
+    db = sqlite3.connect(path)
+    fdb = sqlite3.connect(fpath)
+
+    cursor = db.cursor()
+    fdbcursor = fdb.cursor()
+
     #comment = sqf.getAllFbDb(fdbcursor)
     query = 'num'
+    query1 = 'deltick'
     if debug == 1:
         print("request.args")
         print(request.args)
+
+    inputID = ""
     if query in request.args:
         inputID = request.args[query]
         sqf.deleteFb(fdb, inputID)
-    else:
-        inputID = 0
+
+    inputTick = ""
+    if query1 in request.args:
+        inputTick = request.args[query1]
+        sqd.deleteDB(db, inputTick)
+
     if debug == 1:
         print("inputID")
         print(inputID)
+    clean = sqd.getAllDB(cursor)
     comment = sqf.getAllFbDb(fdbcursor)
-    return render_template('cleanup.html', clean=clean, comment=comment, inputID=inputID)
+
+    db.close()
+    fdb.close()
+    return render_template('cleanup.html', clean=clean, comment=comment, inputID=inputID, inputTick=inputTick)
 
 
 

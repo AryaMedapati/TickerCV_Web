@@ -3,6 +3,7 @@ import datetime
 import matplotlib.pyplot as plt
 import yfinance as yf
 import numpy as np
+import math
 
 def Ticker(start_date, end_date, ticker):
     tickerData = yf.Ticker(ticker)
@@ -50,10 +51,16 @@ def computeRSI (sCloses, sDates, time_window, speriod):
 
     rs = abs(up_chg_avg/down_chg_avg)
     rsi = 100 - 100/(1+rs)
+    if debug == 1:
+        print("rs and rsi")
+        print(rs)
+        print(rsi)
     rsi_sma = rsi.rolling(window=speriod).mean()
     rsiValues = rsi_sma.values
     rsi_trend = rsiValues[len(rsiValues)-1]
     if debug == 1:
         print("Rsi_trend")
         print(rsi_trend)
+    if math.isnan(rsi_trend):
+        rsi_trend = 0
     return rsi_trend

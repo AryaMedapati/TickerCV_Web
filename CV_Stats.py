@@ -1,6 +1,8 @@
 import pandas as pd
 import datetime
 
+debug = 0
+
 def CV_Stats(tdate, sDates, sCloses, df, end_date):
     cCases = {}
     tCases = []
@@ -36,8 +38,9 @@ def CV_Stats(tdate, sDates, sCloses, df, end_date):
         else:
             print("Can't find ", sd, " in ccases.")
         i += 1
-    #print("Dates, Cases, Closes")
-    #print(scDates)
-    #print(tCases)
-    #print(scCloses)
+    if debug == 1:
+        print("Dates, Cases, Closes")
+        print(scDates)
+        print(tCases)
+        print(scCloses)
     return scDates, tCases, scCloses

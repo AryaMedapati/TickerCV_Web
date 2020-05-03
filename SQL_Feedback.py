@@ -14,8 +14,6 @@ def createFbDb(db):
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS feedback(id INTEGER PRIMARY KEY, name TEXT , comment TEXT, cdate DATE)
         ''')
-    db.commit()
-    cursor = db.cursor()
     return cursor
 
 def updateFbDb(db, name, comment, cdate):
