@@ -176,7 +176,7 @@ def feedback():
     fdb.close()
     return render_template('feedback.html', all_rows=all_rows)
 
-@app.route('/cleanupAsSr')
+@app.route('/cleanup')
 def clean():
     db = sqlite3.connect(path)
     fdb = sqlite3.connect(fpath)
