@@ -15,6 +15,7 @@ import HeatMap
 import RSI
 import SQL_Database as sqd
 import SQL_Feedback as sqf
+import SQL_Password as sqp
 import sqlite3
 
 app = Flask(__name__)
@@ -26,21 +27,23 @@ cursor = sqd.createDB(db)
 defaultTS = 'SPY'
 defaultDate = datetime.date.today()-datetime.timedelta(days=30)
 sqd.updateDB(db, defaultTS, 1, 2, defaultDate)
-
 corrrow = sqd.getMaxDBCorr(cursor)
 rsirow = sqd.getMaxDBrsi(cursor)
-
 db.close()
 
 #Creating DB for Feedback
 fpath = '/home/aryam/mysite/feedback.db'
 fdb = sqlite3.connect(fpath)
 fdbcursor = sqf.createFbDb(fdb)
-
 fdb.close()
 
-
+ppath = '/home/aryam/mysite/password.db'
+pdb = sqlite3.connect(ppath)
+pcursor = sqp.createPDB(pdb)
+onerow = sqp.getRow0PDB(pcursor)
+db.close()
 debug = 0
+
 
 
 def latestScores(start_date, end_date, tickerSymbol):
@@ -82,6 +85,9 @@ def latestScores(start_date, end_date, tickerSymbol):
 @app.route('/')
 
 def index():
+    print("request")
+    print(request)
+
     end_date = str(datetime.date.today()-datetime.timedelta(days=1))
     start_date1 = pd.to_datetime(end_date)
     start_date = start_date1 - datetime.timedelta(days=80)
@@ -176,40 +182,39 @@ def feedback():
     fdb.close()
     return render_template('feedback.html', all_rows=all_rows)
 
-@app.route('/cleanup')
-def clean():
-    db = sqlite3.connect(path)
-    fdb = sqlite3.connect(fpath)
-
-    cursor = db.cursor()
-    fdbcursor = fdb.cursor()
-
-    #comment = sqf.getAllFbDb(fdbcursor)
-    query = 'num'
-    query1 = 'deltick'
-    if debug == 1:
-        print("request.args")
-        print(request.args)
-
-    inputID = ""
-    if query in request.args:
-        inputID = request.args[query]
-        sqf.deleteFb(fdb, inputID)
-
-    inputTick = ""
-    if query1 in request.args:
-        inputTick = request.args[query1]
-        sqd.deleteDB(db, inputTick)
+@app.route('/login', methods=['GET', 'POST'])
+def login():
 
     if debug == 1:
-        print("inputID")
-        print(inputID)
-    clean = sqd.getAllDB(cursor)
-    comment = sqf.getAllFbDb(fdbcursor)
+        print("request")
+        print(request)
 
-    db.close()
-    fdb.close()
-    return render_template('cleanup.html', clean=clean, comment=comment, inputID=inputID, inputTick=inputTick)
+    if request.method == 'POST':
+        passkey = request.form.get('lkey')
+        num = request.form.get('num')
+        deltick = request.form.get('deltick')
+        if passkey == onerow[0]:
+            db = sqlite3.connect(path)
+            fdb = sqlite3.connect(fpath)
+
+            cursor = db.cursor()
+            fdbcursor = fdb.cursor()
+
+            #comment = sqf.getAllFbDb(fdbcursor)
+
+            sqf.deleteFb(fdb, num)
+            sqd.deleteDB(db, deltick)
+
+            clean = sqd.getAllDB(cursor)
+            comment = sqf.getAllFbDb(fdbcursor)
+
+            db.close()
+            fdb.close()
+            return render_template('cleanup.html', clean=clean, comment=comment, passkey=passkey)
+
+    return render_template('login.html')
+
+
 
 
 
